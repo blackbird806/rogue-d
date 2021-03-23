@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"Blackbird"
+	],
+	"copyright": "Copyright © 2021, Blackbird",
+	"dependencies": {
+		"arsd-official:terminal": "~>9.3.1"
+	},
+	"description": "A minimal D application.",
+	"license": "GPL-V3",
+	"name": "rogue-d"
+}

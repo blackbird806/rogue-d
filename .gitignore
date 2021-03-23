@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/rogue-d
+rogue-d.so
+rogue-d.dylib
+rogue-d.dll
+rogue-d.a
+rogue-d.lib
+rogue-d-test-*
+*.exe
+*.o
+*.obj
+*.lst
