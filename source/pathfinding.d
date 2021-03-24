@@ -4,7 +4,6 @@ import queue;
 struct Path(Node)
 {
 	Node[Node] nodes;
-	bool isComplete; // does this path go to it's destination ? 	
 }
 
 // https://www.redblobgames.com/pathfinding/a-star/implementation.html

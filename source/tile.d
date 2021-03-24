@@ -29,4 +29,5 @@ shared static this()
 	tileRender[Tile.Type.Ground] = '.';
 	tileRender[Tile.Type.Wall] = '#';
 	tileRender[Tile.Type.Debug] = '+';
+	cast(void) tileRender.rehash;
 }

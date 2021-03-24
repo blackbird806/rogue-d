@@ -2,6 +2,7 @@ module entity;
 
 import game;
 import world;
+import log;
 
 class Entity
 {
@@ -13,12 +14,14 @@ class Entity
 		pos.y = y;
 	}	
 
-	void hit(int damages)
+	void hit(Entity target, int damages)
 	{
-		life -= damages;
-		if (life < 0)
+		target.life -= damages;
+		writeMessagef("%s hit %s for %d damages", typeid(this), typeid(target), damages);
+		if (target.life < 0)
 		{
-			g_game.currentWorld.removeEntity(this);
+			g_game.currentWorld.removeEntity(target);
+			writeMessagef("%s died", typeid(target));
 		}		
 	}
 
@@ -47,10 +50,17 @@ final class Enemy : Entity
 
 	override void update()
 	{
-		import pathfinding, std.stdio;
+		import pathfinding;
+		import std.algorithm;
+
+		// hit player if next to
+		if (g_game.currentWorld.neighbours(pos).any!(a => g_game.currentWorld[a].standEntity is g_game.player))
+		{
+			hit(g_game.player, 5);
+			return;	
+		}
 
 		auto neighboursFn(Position p) {
-			import std.algorithm : filter;
 			import std.array : array;
 			return g_game.currentWorld.neighbours(p)
 			.filter!(a => g_game.currentWorld[a].isWalkable() || g_game.currentWorld[a].standEntity == this)
@@ -58,7 +68,7 @@ final class Enemy : Entity
 		}
 
 		const path = breadthFirstSearch(&neighboursFn, pos, getTargetPosition());
-		pos = path.nodes[pos];
+		pos = path.nodes.get(pos, pos);
 	}
 }
 

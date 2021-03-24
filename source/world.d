@@ -57,7 +57,7 @@ class World
 
 	bool isInBounds(int x, int y) const nothrow pure @nogc
 	{
-		return x > 0 && x < width && y > 0 && y < height;
+		return x >= 0 && x < width && y >= 0 && y < height;
 	}
 
 	// Get the 4 adjacents cells of the given Pos
@@ -87,14 +87,13 @@ class World
 		return neighbours(p).filter!(a => this[a].isWalkable()).array;
 	}
 
-	ref auto opIndex(Position p) inout
+	ref inout(Tile) opIndex(Position p) inout
 	{
 		return this[p.x, p.y];
 	}
 
-	ref auto opIndex(int i, int j) inout
-	in(i < width)
-	in(j < height)
+	ref inout(Tile) opIndex(int i, int j) inout
+	in(isInBounds(i, j))
 	{
 		return map[j * width + i];
 	}

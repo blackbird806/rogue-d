@@ -4,6 +4,8 @@ import entity;
 import world;
 import world_reader;
 import arsd.terminal;
+import std.file;
+import log;
 
 struct Game
 {
@@ -11,20 +13,14 @@ struct Game
 	{
 		enum map = 
 			"################\n" ~
-			"#....#.......e.#\n" ~
+			"#....#.........#\n" ~
 			"#.@..#..e......#\n" ~
-			"#....#########.#\n" ~
+			"#....########.##\n" ~
 			"#..............#\n" ~
-			"#.....e........#\n" ~
+			"#..............#\n" ~
 			"################\n";
-
-		enum map2 = 
-			"#####\n" ~
-			"#@..#\n" ~
-			"#...#\n" ~
-			"#..e#\n" ~
-			"#####\n" ;
-
+		
+		// currentWorld = readWorld(readText("level1.txt"));
 		currentWorld = readWorld(map);
 
 		terminal = Terminal(ConsoleOutputType.linear);
@@ -62,7 +58,7 @@ struct Game
 		{
 			if (typeid(currentWorld[npos.x, npos.y].standEntity) == typeid(Enemy))
 			{
-				currentWorld[npos.x, npos.y].standEntity.hit(10);
+				player.hit(currentWorld[npos.x, npos.y].standEntity, 10);
 			}
 		}
 	}
@@ -77,6 +73,7 @@ struct Game
 			handleInputs(key);
 			currentWorld.update();
 			draw();
+			drawLogMessages();
 			turnCount++;
 		}
 	}
